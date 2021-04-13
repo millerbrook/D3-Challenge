@@ -116,7 +116,7 @@ var ylabelsGroup = chartGroup
     
 var lacksHealthcareLabel = ylabelsGroup
     .append("text")
-    .attr("x", 20)
+    .attr("x", 20) //CORRECT POSITIONING???
     .attr("y", 0)
     .attr("value", "lacks_healthcare") // value to grab for event listener
     .classed("inactive", true)
@@ -124,7 +124,7 @@ var lacksHealthcareLabel = ylabelsGroup
 
 var smokesLabel = ylabelsGroup
     .append("text")
-    .attr("x", 40)
+    .attr("x", 40) //CORRECT POSITIONING???
     .attr("y", 0)
     .attr("value", "smokes") // value to grab for event listener
     .classed("inactive", true)
@@ -132,9 +132,138 @@ var smokesLabel = ylabelsGroup
 
 var obeseLabel = ylabelsGroup
     .append("text")
-    .attr("x", 60)
+    .attr("x", 60) //CORRECT POSITIONING???
     .attr("y", 0)
     .attr("value", "obese") // value to grab for event listener
     .classed("inactive", true)
     .text("Obese (%)");
+
+  // updateToolTip function above csv import
+  var circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
+
+    // x axis labels event listener
+    xlabelsGroup.selectAll("text")
+    .on("click", function() {
+      // get value of selection
+      var value = d3.select(this).attr("value");
+      if (value !== chosenXAxis) {
+
+        // replaces chosenXAxis with value
+        chosenXAxis = value;
+
+        // console.log(chosenXAxis)
+
+        // functions here found above csv import
+        // updates x scale for new data
+        xLinearScale = xScale(demoData, chosenXAxis);
+
+        // updates x axis with transition
+        xAxis = renderXAxis(xLinearScale, xAxis);
+
+        // updates circles with new x values
+        circlesGroup = renderCircles(circlesGroup, xLinearScale, chosenXAxis, yLinearScale, chosenYAxis);
+
+        // updates tooltips with new info
+        circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
+
+        // changes classes to change bold text
+        if (chosenXAxis === "in_poverty") {
+          inPovertyLabel
+            .classed("active", true)
+            .classed("inactive", false);
+          ageLabel
+            .classed("active", false)
+            .classed("inactive", true);
+          householdIncomeLabel
+            .classed("active", false)
+            .classed("inactive", true);
+        }
+        else if (chosenYAxis === "age") {
+          inPovertyLabel
+            .classed("active", false)
+            .classed("inactive", true);
+          ageLabel
+            .classed("active", true)
+            .classed("inactive", false);
+          householdIncomeLabel
+            .classed("active", false)
+            .classed("inactive", true);
+        }
+        else { //defaults to householdIncomeLabel --> is that what I want?
+          inPovertyLabel
+            .classed("active", false)
+            .classed("inactive", true);
+          ageLabel
+            .classed("active", false)
+            .classed("inactive", true);
+          householdIncomeLabel
+            .classed("active", true)
+            .classed("inactive", false);
+        }
+      }
+    });
+
+      // x axis labels event listener
+      xlabelsGroup.selectAll("text")
+      .on("click", function() {
+        // get value of selection
+        var value = d3.select(this).attr("value");
+        if (value !== chosenXAxis) {
+  
+          // replaces chosenXAxis with value
+          chosenXAxis = value;
+  
+          // console.log(chosenXAxis)
+  
+          // functions here found above csv import
+          // updates x scale for new data
+          xLinearScale = xScale(demoData, chosenXAxis);
+  
+          // updates x axis with transition
+          xAxis = renderXAxis(xLinearScale, xAxis);
+  
+          // updates circles with new x values
+          circlesGroup = renderCircles(circlesGroup, xLinearScale, chosenXAxis, yLinearScale, chosenYAxis);
+  
+          // updates tooltips with new info
+          circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
+  
+          // changes classes to change bold text
+          if (chosenXAxis === "in_poverty") {
+            inPovertyLabel
+              .classed("active", true)
+              .classed("inactive", false);
+            ageLabel
+              .classed("active", false)
+              .classed("inactive", true);
+            householdIncomeLabel
+              .classed("active", false)
+              .classed("inactive", true);
+          }
+          else if (chosenYAxis === "age") {
+            inPovertyLabel
+              .classed("active", false)
+              .classed("inactive", true);
+            ageLabel
+              .classed("active", true)
+              .classed("inactive", false);
+            householdIncomeLabel
+              .classed("active", false)
+              .classed("inactive", true);
+          }
+          else { //defaults to householdIncomeLabel --> is that what I want?
+            inPovertyLabel
+              .classed("active", false)
+              .classed("inactive", true);
+            ageLabel
+              .classed("active", false)
+              .classed("inactive", true);
+            householdIncomeLabel
+              .classed("active", true)
+              .classed("inactive", false);
+          }
+        }
+      });
+}).catch(function(error) {
+  console.log(error);
 });
