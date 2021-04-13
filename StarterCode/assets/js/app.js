@@ -203,24 +203,24 @@ var obeseLabel = ylabelsGroup
       }
     });
 
-      // x axis labels event listener
-      xlabelsGroup.selectAll("text")
+      // y axis labels event listener
+      ylabelsGroup.selectAll("text")
       .on("click", function() {
         // get value of selection
         var value = d3.select(this).attr("value");
-        if (value !== chosenXAxis) {
+        if (value !== chosenYAxis) {
   
           // replaces chosenXAxis with value
-          chosenXAxis = value;
+          chosenYAxis = value;
   
-          // console.log(chosenXAxis)
+          // console.log(chosenYAxis)
   
           // functions here found above csv import
-          // updates x scale for new data
-          xLinearScale = xScale(demoData, chosenXAxis);
+          // updates y scale for new data
+          yLinearScale = yScale(demoData, chosenYAxis);
   
-          // updates x axis with transition
-          xAxis = renderXAxis(xLinearScale, xAxis);
+          // updates y axis with transition
+          yAxis = renderYAxis(yLinearScale, yAxis);
   
           // updates circles with new x values
           circlesGroup = renderCircles(circlesGroup, xLinearScale, chosenXAxis, yLinearScale, chosenYAxis);
@@ -229,36 +229,36 @@ var obeseLabel = ylabelsGroup
           circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
   
           // changes classes to change bold text
-          if (chosenXAxis === "in_poverty") {
-            inPovertyLabel
+          if (chosenYAxis === "lacks_healthcare") {
+            lacksHealthcareLabel
               .classed("active", true)
               .classed("inactive", false);
-            ageLabel
+            smokesLabel
               .classed("active", false)
               .classed("inactive", true);
-            householdIncomeLabel
+            obeseLabel
               .classed("active", false)
               .classed("inactive", true);
           }
-          else if (chosenYAxis === "age") {
-            inPovertyLabel
+          else if (chosenYAxis === "smokes") {
+            lacksHealthcareLabel
               .classed("active", false)
               .classed("inactive", true);
-            ageLabel
+            smokesLabel
               .classed("active", true)
               .classed("inactive", false);
-            householdIncomeLabel
+            obeseLabel
               .classed("active", false)
               .classed("inactive", true);
           }
           else { //defaults to householdIncomeLabel --> is that what I want?
-            inPovertyLabel
+            lacksHealthcareLabel
               .classed("active", false)
               .classed("inactive", true);
-            ageLabel
+            smokesLabel
               .classed("active", false)
               .classed("inactive", true);
-            householdIncomeLabel
+            obeseLabel
               .classed("active", true)
               .classed("inactive", false);
           }
