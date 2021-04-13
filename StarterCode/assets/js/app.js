@@ -25,11 +25,11 @@ var chartGroup = svg
   .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
 //Initial Parameters
-var chosenXAxis = "in_poverty";
-var chosenYAxis = "lacks_healthcare";
+var chosenXAxis = "poverty";
+var chosenYAxis = "healthcare";
 
 // function used for updating x-scale var upon click on axis label
-function xScale(democData, chosenXAxis) {
+function xScale(demoData, chosenXAxis) {
   // create scales
   var xLinearScale = d3.scaleLinear()
     .domain([d3.min(demoData, d => d[chosenXAxis]) * 0.8,
@@ -42,19 +42,95 @@ function xScale(democData, chosenXAxis) {
 }
 
 // function used for updating y-scale var upon click on axis label
-function yScale(democData, chosenYAxis) {
+function yScale(demoData, chosenYAxis) {
   // create scales
   var yLinearScale = d3.scaleLinear()
     .domain([d3.max(demoData, d => d[chosenYAxis]) * 1.2, 
     d3.min(demoData, d => d[chosenYAxis]) * 0.8 //Note the min is 2nd here to account for directionality of y-axis. Correct?
     ])
-    .range([height, 0]);
+    .range([height, 0]); //note also the order here. Correct?
 
   return yLinearScale;
+};
 
+// function used for updating xAxis var upon click on axis label
+function renderXAxis(newXScale, xAxis) {
+  var bottomAxis = d3.axisBottom(newXScale);
+
+  xAxis.transition()
+    .duration(1000)
+    .call(bottomAxis);
+
+  return xAxis;
 }
 
+// function used for updating yAxis var upon click on axis label
+function renderYAxis(newYScale, yAxis) {
+  var bottomAxis = d3.axisBottom(newyScale);
 
+  yAxis.transition()
+    .duration(1000)
+    .call(leftAxis);
+
+  return yAxis;
+}
+
+// function used for updating circles group with a transition to
+// new circles
+function renderCircles(circlesGroup, newXScale, chosenXAxis, newYScale, chosenYAxis) {
+
+  circlesGroup.transition()
+    .duration(1000)
+    .attr("cx", d => newXScale(d[chosenXAxis]))
+    .attr("cy", b => newYScale(b[chosenYAxis])); //note use of 'b' here -- is 'd' a 'd3' key expression?
+
+  return circlesGroup;
+}
+
+// function used for updating circles group with new tooltip
+function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
+
+  var xlabel;
+  var ylabel;
+  if (chosenXAxis === "poverty") {
+    xlabel = "In poverty:";
+  }
+  else if (chosenXAxis === "age") {
+    xlabel = "Age (median):";
+  }
+  else {
+    xlabel = "Income (median):"
+  }
+
+  if (chosenYAxis === "healthcare") {
+    ylabel = "Lacks healthcare:";
+  }
+  else if (chosenYAxis === "smokes") {
+    ylabel = "Smokes (%):";
+  }
+  else {
+    ylabel = "Obesity (%):"
+  }
+  var toolTip = d3.tip()
+    .attr("class", "tooltip")
+    .offset([80, -60])
+    .html(function(d) {
+      return (`${d.State}<br>${xlabel} ${d[chosenXAxis]}<br>
+      ${ylabel} ${d[chosenYAxis]}`);
+    });
+
+  circlesGroup.call(toolTip);
+
+  circlesGroup.on("mouseover", function(data) {
+    toolTip.show(data);
+  })
+    // onmouseout event
+    .on("mouseout", function(data, index) {
+      toolTip.hide(data);
+    });
+
+  return circlesGroup;
+}
 
 // Retrieve data from the CSV file and execute everything below
 d3.csv("assets/data/data.csv").then(function (demoData, err) {
@@ -112,7 +188,7 @@ d3.csv("assets/data/data.csv").then(function (demoData, err) {
     .append("text")
     .attr("x", 0)
     .attr("y", 20)
-    .attr("value", "in_poverty") // value to grab for event listener
+    .attr("value", "poverty") // value to grab for event listener
     .classed("active", true)
     .text("In Poverty (%)");
 
@@ -128,7 +204,7 @@ d3.csv("assets/data/data.csv").then(function (demoData, err) {
     .append("text")
     .attr("x", 0)
     .attr("y", 60)
-    .attr("value", "household_income") // value to grab for event listener
+    .attr("value", "income") // value to grab for event listener
     .classed("inactive", true)
     .text("Household Income (Median)");
 
@@ -145,7 +221,7 @@ var lacksHealthcareLabel = ylabelsGroup
     .append("text")
     .attr("x", 20) //CORRECT POSITIONING???
     .attr("y", 0)
-    .attr("value", "lacks_healthcare") // value to grab for event listener
+    .attr("value", "healthcare") // value to grab for event listener
     .classed("inactive", true)
     .text("Lacks Healthcare (%)");
 
@@ -157,13 +233,13 @@ var smokesLabel = ylabelsGroup
     .classed("inactive", true)
     .text("Smokes (%)");
 
-var obeseLabel = ylabelsGroup
+var obesityLabel = ylabelsGroup
     .append("text")
     .attr("x", 60) //CORRECT POSITIONING???
     .attr("y", 0)
-    .attr("value", "obese") // value to grab for event listener
+    .attr("value", "obesity") // value to grab for event listener
     .classed("inactive", true)
-    .text("Obese (%)");
+    .text("obesity (%)");
 
   // updateToolTip function above csv import
   var circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
@@ -194,7 +270,7 @@ var obeseLabel = ylabelsGroup
         circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
 
         // changes classes to change bold text
-        if (chosenXAxis === "in_poverty") {
+        if (chosenXAxis === "poverty") {
           inPovertyLabel
             .classed("active", true)
             .classed("inactive", false);
@@ -256,14 +332,14 @@ var obeseLabel = ylabelsGroup
           circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
   
           // changes classes to change bold text
-          if (chosenYAxis === "lacks_healthcare") {
+          if (chosenYAxis === "healthcare") {
             lacksHealthcareLabel
               .classed("active", true)
               .classed("inactive", false);
             smokesLabel
               .classed("active", false)
               .classed("inactive", true);
-            obeseLabel
+            obesityLabel
               .classed("active", false)
               .classed("inactive", true);
           }
@@ -274,7 +350,7 @@ var obeseLabel = ylabelsGroup
             smokesLabel
               .classed("active", true)
               .classed("inactive", false);
-            obeseLabel
+            obesityLabel
               .classed("active", false)
               .classed("inactive", true);
           }
@@ -285,7 +361,7 @@ var obeseLabel = ylabelsGroup
             smokesLabel
               .classed("active", false)
               .classed("inactive", true);
-            obeseLabel
+            obesityLabel
               .classed("active", true)
               .classed("inactive", false);
           }
