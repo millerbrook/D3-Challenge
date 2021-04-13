@@ -132,7 +132,7 @@ var smokesLabel = ylabelsGroup
 
 var obeseLabel = ylabelsGroup
     .append("text")
-    .attr("x", 20)
+    .attr("x", 60)
     .attr("y", 0)
     .attr("value", "obese") // value to grab for event listener
     .classed("inactive", true)
