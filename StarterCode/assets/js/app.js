@@ -25,7 +25,34 @@ var chartGroup = svg
   .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
 //Initial Parameters
+var chosenXAxis = "in_poverty";
+var chosenYAxis = "lacks_healthcare";
 
+// function used for updating x-scale var upon click on axis label
+function xScale(democData, chosenXAxis) {
+  // create scales
+  var xLinearScale = d3.scaleLinear()
+    .domain([d3.min(demoData, d => d[chosenXAxis]) * 0.8,
+      d3.max(demoData, d => d[chosenXAxis]) * 1.2
+    ])
+    .range([0, width]);
+
+  return xLinearScale;
+
+}
+
+// function used for updating y-scale var upon click on axis label
+function yScale(democData, chosenYAxis) {
+  // create scales
+  var yLinearScale = d3.scaleLinear()
+    .domain([d3.max(demoData, d => d[chosenYAxis]) * 1.2, 
+    d3.min(demoData, d => d[chosenYAxis]) * 0.8 //Note the min is 2nd here to account for directionality of y-axis. Correct?
+    ])
+    .range([height, 0]);
+
+  return yLinearScale;
+
+}
 
 
 
@@ -210,7 +237,7 @@ var obeseLabel = ylabelsGroup
         var value = d3.select(this).attr("value");
         if (value !== chosenYAxis) {
   
-          // replaces chosenXAxis with value
+          // replaces chosenYAxis with value
           chosenYAxis = value;
   
           // console.log(chosenYAxis)
@@ -222,7 +249,7 @@ var obeseLabel = ylabelsGroup
           // updates y axis with transition
           yAxis = renderYAxis(yLinearScale, yAxis);
   
-          // updates circles with new x values
+          // updates circles with new y values
           circlesGroup = renderCircles(circlesGroup, xLinearScale, chosenXAxis, yLinearScale, chosenYAxis);
   
           // updates tooltips with new info
