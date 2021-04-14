@@ -162,7 +162,10 @@ d3.csv("assets/data/data.csv").then(function (demoData, err) {
     .call(bottomAxis);
 
   // append y axis
-  chartGroup.append("g").call(leftAxis);
+  var yAxis = chartGroup
+    .append("g")
+    .classed("y-axis", true)
+    .call(leftAxis);
 
   // append initial circles
   var circlesGroup = chartGroup
