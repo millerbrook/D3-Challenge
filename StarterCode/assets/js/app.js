@@ -93,7 +93,7 @@ function renderCircles(
 }
 
 // function used for updating circles group with new tooltip
-function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
+function updateToolTip(demoData, chosenXAxis, chosenYAxis, circlesGroup) {
   var xlabel;
   var ylabel;
   if (chosenXAxis === "poverty") {
@@ -124,7 +124,7 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
 
   circlesGroup
     .on("mouseover", function (data) {
-      toolTip.show(data);
+      toolTip.show(data, this);
     })
     // onmouseout event
     .on("mouseout", function (data, index) {
@@ -222,8 +222,8 @@ d3.csv("assets/data/data.csv")
       .attr("transform", "rotate(-90)") //HELP!!! WHAT POSITIONING DOES THE GROUP NEED?
       //     .attr("y", 0 - margin.left)
       //     .attr("x", 0 - (height/1.5))
-      .attr("dy", "1em");
-    //     .classed("axis-text", true)
+      .attr("dy", "1em")
+      .classed("axis-text", true);
 
     var lacksHealthcareLabel = ylabelsGroup
       .append("text")
@@ -236,7 +236,7 @@ d3.csv("assets/data/data.csv")
     var smokesLabel = ylabelsGroup
       .append("text")
       .attr("x", 0 - height / 2) //CORRECT POSITIONING???
-      .attr("y", 0 - margin.left / 2 - 20)
+      .attr("y", 0 - margin.left / 2 - 19)
       .attr("value", "smokes") // value to grab for event listener
       .classed("inactive", true)
       .text("Smokes (%)");
@@ -244,13 +244,13 @@ d3.csv("assets/data/data.csv")
     var obesityLabel = ylabelsGroup
       .append("text")
       .attr("x", 0 - height / 2) //CORRECT POSITIONING???
-      .attr("y", 0 - margin.left / 2 - 40)
+      .attr("y", 0 - margin.left / 2 - 38)
       .attr("value", "obesity") // value to grab for event listener
       .classed("inactive", true)
       .text("Obesity (%)");
 
     // updateToolTip function above csv import
-    var circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
+    var circlesGroup = updateToolTip(demoData, chosenXAxis, chosenYAxis, circlesGroup);
 
     // x axis labels event listener
     xlabelsGroup.selectAll("text").on("click", function () {
