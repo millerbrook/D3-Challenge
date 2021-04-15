@@ -67,7 +67,7 @@ function renderXAxis(newXScale, xAxis) {
 
 // function used for updating yAxis var upon click on axis label
 function renderYAxis(newYScale, yAxis) {
-  var bottomAxis = d3.axisBottom(newyScale);
+  var leftAxis = d3.axisLeft(newYScale);
 
   yAxis.transition().duration(1000).call(leftAxis);
 
@@ -87,7 +87,7 @@ function renderCircles(
     .transition()
     .duration(1000)
     .attr("cx", (d) => newXScale(d[chosenXAxis]))
-    .attr("cy", (b) => newYScale(b[chosenYAxis])); //note use of 'b' here -- is 'd' a 'd3' key expression?
+    .attr("cy", (d) => newYScale(d[chosenYAxis]));
 
   return circlesGroup;
 }
@@ -165,7 +165,10 @@ d3.csv("assets/data/data.csv")
       .call(bottomAxis);
 
     // append y axis
-    var yAxis = chartGroup.append("g").classed("y-axis", true).call(leftAxis);
+    var yAxis = chartGroup
+      .append("g")
+      .classed("y-axis", true)
+      .call(leftAxis);
 
     // append initial circles
     var circlesGroup = chartGroup
@@ -205,6 +208,7 @@ d3.csv("assets/data/data.csv")
       .attr("y", 20)
       .attr("value", "poverty") // value to grab for event listener
       .classed("active", true)
+      .classed("inactive", false)
       .text("In Poverty (%)");
 
     var ageLabel = xlabelsGroup
@@ -212,6 +216,7 @@ d3.csv("assets/data/data.csv")
       .attr("x", 0)
       .attr("y", 40)
       .attr("value", "age") // value to grab for event listener
+      .classed("active", false)
       .classed("inactive", true)
       .text("Age (Median)");
 
@@ -220,6 +225,7 @@ d3.csv("assets/data/data.csv")
       .attr("x", 0)
       .attr("y", 60)
       .attr("value", "income") // value to grab for event listener
+      .classed("active", false)
       .classed("inactive", true)
       .text("Household Income (Median)");
 
@@ -324,11 +330,12 @@ d3.csv("assets/data/data.csv")
     ylabelsGroup.selectAll("text").on("click", function () {
       // get value of selection
       var value = d3.select(this).attr("value");
+      //console.log(`Value on Y axis click: ${value}`);
       if (value !== chosenYAxis) {
         // replaces chosenYAxis with value
         chosenYAxis = value;
 
-        // console.log(chosenYAxis)
+        console.log(chosenYAxis);
 
         // functions here found above csv import
         // updates y scale for new data
