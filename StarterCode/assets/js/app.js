@@ -116,7 +116,7 @@ function updateToolTip(demoData, chosenXAxis, chosenYAxis, circlesGroup) {
     .attr("class", "tooltip")
     .offset([80, -60])
     .html(function (d) {
-      return `${d.State}<br>${xlabel} ${d[chosenXAxis]}<br>
+      return `${d.abbr}<br>${xlabel} ${d[chosenXAxis]}<br>
       ${ylabel} ${d[chosenYAxis]}`;
     });
 
@@ -178,6 +178,21 @@ d3.csv("assets/data/data.csv")
       .attr("r", 10)
       .attr("fill", "blue")
       .attr("opacity", ".5");
+
+    //Put state abbreviations on circles
+    var textGroup = chartGroup
+      .selectAll("text")
+      .data(demoData)
+      .enter()
+      .append("text")
+      .attr("x", (d) => xLinearScale(d[chosenXAxis]))
+      .attr("y", (d) => yLinearScale(d[chosenYAxis]))
+      .attr("dy", ".4em")
+      .attr("dx", "-.7em")
+      .style("font-size", ".75em")
+      .attr("fill", "white")
+      .attr("opacity", ".9")
+      .text(function(d) {return d.abbr});
 
     // Create group for three x-axis labels
     var xlabelsGroup = chartGroup
