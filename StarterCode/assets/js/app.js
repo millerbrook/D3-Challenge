@@ -165,10 +165,7 @@ d3.csv("assets/data/data.csv")
       .call(bottomAxis);
 
     // append y axis
-    var yAxis = chartGroup
-      .append("g")
-      .classed("y-axis", true)
-      .call(leftAxis);
+    var yAxis = chartGroup.append("g").classed("y-axis", true).call(leftAxis);
 
     // append initial circles
     var circlesGroup = chartGroup
@@ -195,7 +192,9 @@ d3.csv("assets/data/data.csv")
       .style("font-size", ".75em")
       .attr("fill", "white")
       .attr("opacity", ".9")
-      .text(function(d) {return d.abbr});
+      .text(function (d) {
+        return d.abbr;
+      });
 
     // Create group for three x-axis labels
     var xlabelsGroup = chartGroup
@@ -271,17 +270,23 @@ d3.csv("assets/data/data.csv")
       .text("Obesity (%)");
 
     // updateToolTip function above csv import
-    var circlesGroup = updateToolTip(demoData, chosenXAxis, chosenYAxis, circlesGroup);
+    var circlesGroup = updateToolTip(
+      demoData,
+      chosenXAxis,
+      chosenYAxis,
+      circlesGroup
+    );
 
     // x axis labels event listener
     xlabelsGroup.selectAll("text").on("click", function () {
       // get value of selection
       var value = d3.select(this).attr("value");
+      console.log(`Value chosen is ${value}`)
       if (value !== chosenXAxis) {
         // replaces chosenXAxis with value
         chosenXAxis = value;
 
-        // console.log(chosenXAxis)
+        console.log(`Chosen X axis is now ${chosenXAxis}`)
 
         // functions here found above csv import
         // updates x scale for new data
@@ -300,28 +305,31 @@ d3.csv("assets/data/data.csv")
         );
 
         // updates tooltips with new info
-        circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
+        circlesGroup = updateToolTip(demoData, chosenXAxis, chosenYAxis, circlesGroup);
 
-        // changes classes to change bold text
         if (chosenXAxis === "poverty") {
-          inPovertyLabel.classed("active", true).classed("inactive", false);
-          ageLabel.classed("active", false).classed("inactive", true);
-          householdIncomeLabel
-            .classed("active", false)
-            .classed("inactive", true);
-        } else if (chosenYAxis === "age") {
-          inPovertyLabel.classed("active", false).classed("inactive", true);
-          ageLabel.classed("active", true).classed("inactive", false);
-          householdIncomeLabel
-            .classed("active", false)
-            .classed("inactive", true);
-        } else {
-          //defaults to householdIncomeLabel --> is that what I want?
-          inPovertyLabel.classed("active", false).classed("inactive", true);
-          ageLabel.classed("active", false).classed("inactive", true);
-          householdIncomeLabel
+          inPovertyLabel
             .classed("active", true)
             .classed("inactive", false);
+          ageLabel.classed("active", false).classed("inactive", true);
+          householdIncomeLabel.classed("active", false).classed("inactive", true);
+          console.log(`chosen x is poverty`);
+        } 
+        else if (chosenXAxis === "age") {
+          inPovertyLabel
+            .classed("active", false)
+            .classed("inactive", true);
+          ageLabel.classed("active", true).classed("inactive", false);
+          householdIncomeLabel.classed("active", false).classed("inactive", true);
+          console.log(`chosen x is age`);
+        }
+        else {
+          inPovertyLabel
+            .classed("active", false)
+            .classed("inactive", true);
+          ageLabel.classed("active", false).classed("inactive", true);
+          householdIncomeLabel.classed("active", true).classed("inactive", false);
+          console.log(`chosen x is income`);
         }
       }
     });
@@ -354,7 +362,7 @@ d3.csv("assets/data/data.csv")
         );
 
         // updates tooltips with new info
-        circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
+        //circlesGroup = updateToolTip(demoData, chosenXAxis, chosenYAxis, circlesGroup);
 
         // changes classes to change bold text
         if (chosenYAxis === "healthcare") {
@@ -363,19 +371,23 @@ d3.csv("assets/data/data.csv")
             .classed("inactive", false);
           smokesLabel.classed("active", false).classed("inactive", true);
           obesityLabel.classed("active", false).classed("inactive", true);
-        } else if (chosenYAxis === "smokes") {
+          console.log(`chosen Y is healthcare`);
+        } 
+        else if (chosenYAxis === "smokes") {
           lacksHealthcareLabel
             .classed("active", false)
             .classed("inactive", true);
           smokesLabel.classed("active", true).classed("inactive", false);
           obesityLabel.classed("active", false).classed("inactive", true);
-        } else {
-          //defaults to householdIncomeLabel --> is that what I want?
+          console.log(`chosen Y is smokes`);
+        }
+        else {
           lacksHealthcareLabel
             .classed("active", false)
             .classed("inactive", true);
           smokesLabel.classed("active", false).classed("inactive", true);
           obesityLabel.classed("active", true).classed("inactive", false);
+          console.log(`chosen Y is obese`);
         }
       }
     });
