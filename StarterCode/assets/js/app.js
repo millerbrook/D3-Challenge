@@ -91,6 +91,10 @@ function renderCircles(
 
   return circlesGroup;
 }
+// NEED: function used for updating state abbr's overlaid on circles group with a transition to
+// new locations
+
+
 
 // function used for updating circles group with new tooltip
 function updateToolTip(demoData, chosenXAxis, chosenYAxis, circlesGroup) {
@@ -190,11 +194,9 @@ d3.csv("assets/data/data.csv")
       .attr("dy", ".4em")
       .attr("dx", "-.7em")
       .style("font-size", ".75em")
-      .attr("fill", "white")
+      .attr("fill", "black")
       .attr("opacity", ".9")
-      .text(function (d) {
-        return d.abbr;
-      });
+      .text((d) => d.abbr);
 
     // Create group for three x-axis labels
     var xlabelsGroup = chartGroup
@@ -228,15 +230,6 @@ d3.csv("assets/data/data.csv")
       .classed("inactive", true)
       .text("Household Income (Median)");
 
-    // Create group for three y-axis labels
-    // append y axis
-    //  chartGroup.append("text")
-    //  .attr("transform", "rotate(-90)")
-    //  .attr("y", 0 - margin.left)
-    //  .attr("x", 0 - (height/1.5))
-    //  .attr("dy", "1em")
-    //  .classed("axis-text", true)
-    //  .text("Number of Billboard 500 Hits");
     var ylabelsGroup = chartGroup
       .append("g")
       .attr("transform", "rotate(-90)") //HELP!!! WHAT POSITIONING DOES THE GROUP NEED?
@@ -362,7 +355,7 @@ d3.csv("assets/data/data.csv")
         );
 
         // updates tooltips with new info
-        //circlesGroup = updateToolTip(demoData, chosenXAxis, chosenYAxis, circlesGroup);
+        circlesGroup = updateToolTip(demoData, chosenXAxis, chosenYAxis, circlesGroup);
 
         // changes classes to change bold text
         if (chosenYAxis === "healthcare") {
