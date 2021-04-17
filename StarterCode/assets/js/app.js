@@ -195,18 +195,21 @@ d3.csv("assets/data/data.csv")
     //   .attr("opacity", ".1")
     //   .text(abbr);
 
-    var textGroup = chartGroup
-      .selectAll("text")
-      .data(demoData)
-      .enter()
-      .append("text")
-      .attr("x", (d) => xLinearScale(d[chosenXAxis]))
-      .attr("y", (d) => yLinearScale(d[chosenYAxis]))
-      .attr("dy", ".4em")
-      .attr("dx", "-.7em")
-      .style("font-size", ".3em")
-      .text();
+    // var textGroup = chartGroup
+    //   .selectAll("text")
+    //   .data(demoData)
+    //   .enter()
+    //   .append("text")
+    //   .attr("x", (d) => xLinearScale(d[chosenXAxis]))
+    //   .attr("y", (d) => yLinearScale(d[chosenYAxis]))
+    //   .attr("dy", ".4em")
+    //   .attr("dx", "-.7em")
+    //   .style("font-size", ".3em")
+    //   .text();
 
+    // for (i=0; i < abbrev.length; i++) {
+
+    // }
     // append initial circles
     var circlesGroup = chartGroup
       .selectAll("circle")
