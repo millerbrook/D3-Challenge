@@ -192,10 +192,20 @@ d3.csv("assets/data/data.csv")
     //   .attr("dx", "-.7em")
     //   .style("font-size", ".4em")
     //   .attr("color", "black")
-    //   .attr("opacity", ".9")
-    //   .text(function(abbrev) {
-    //     return(abbr);
-    //   });
+    //   .attr("opacity", ".1")
+    //   .text(abbr);
+
+    var textGroup = chartGroup
+      .selectAll("text")
+      .data(demoData)
+      .enter()
+      .append("text")
+      .attr("x", (d) => xLinearScale(d[chosenXAxis]))
+      .attr("y", (d) => yLinearScale(d[chosenYAxis]))
+      .attr("dy", ".4em")
+      .attr("dx", "-.7em")
+      .style("font-size", ".3em")
+      .text();
 
     // append initial circles
     var circlesGroup = chartGroup
@@ -207,7 +217,7 @@ d3.csv("assets/data/data.csv")
       .attr("cy", (d) => yLinearScale(d[chosenYAxis]))
       .attr("r", 12)
       .attr("fill", "lightblue")
-      .attr("opacity", ".5");
+      .attr("opacity", ".3");
 
     // Create group for three x-axis labels
     var xlabelsGroup = chartGroup
