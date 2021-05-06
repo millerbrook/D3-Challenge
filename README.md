@@ -1,14 +1,20 @@
-#Multi-axis D3 Visualization
+# Multi-axis D3 Visualization
+
 ***
+
 This project utilizes D3 to visualize U.S. state-based health data across a total of six axes (3 for each axis in the coordinate plan). In total, it offers 9 visualizations of the correlations between various health-related metrics.
+
+---
+
+## Dataset
+[Health Data By State](https://github.com/millerbrook/Multi-Axis_D3_Visualization/tree/main/Code/assets/data/data.csv)
+
 --
-##Dataset
-[Health Data By State] ("Code/assets/data/data.csv")
---
-##Objectives
+
+## Objectives
 Give users ability to explore data about health risks linked to particular demographic factors.
 
-###Step 1
+### Step 1
 
 Pull in the data from `data.csv` by using the `d3.csv` function.
 
@@ -29,20 +35,20 @@ d3.csv("assets/data/data.csv")
       abbrev.push(data.abbr);
     });
 ```
-###Step 2
+### Step 2
 
 Create graph with multiple axes.
-![Visualization] ("Code/assets/screenshots/graph.png")
+![Visualization]("Code/assets/screenshots/graph.png")
 
-###Step 3
+### Step 3
 
 Provide some exploratory analysis of the graph.
 
-![Exploratory Analysis] (""Code/assets/screenshots/analysis.png")
+![Exploratory Analysis] ("Code/assets/screenshots/analysis.png")
 
 --
-###Contact Information
+### Contact Information
 
 Brook Miller
-millerbrook@gmail.com
-![LinkedIn](www.linkedin.com/in/brook-miller-data)
+[Email](millerbrook@gmail.com)
+[LinkedIn](www.linkedin.com/in/brook-miller-data)
