@@ -1,41 +1,48 @@
-<h1><strong>Multi-axis D3 Visualization<strong></h1>
-<hr>
+#Multi-axis D3 Visualization
+***
 This project utilizes D3 to visualize U.S. state-based health data across a total of six axes (3 for each axis in the coordinate plan). In total, it offers 9 visualizations of the correlations between various health-related metrics.
-Dataset
+--
+##Dataset
+[Health Data By State] ("Code/assets/data/data.csv")
+--
+##Objectives
+Give users ability to explore data about health risks linked to particular demographic factors.
 
-Objectives
+###Step 1
 
-Step 1
+Pull in the data from `data.csv` by using the `d3.csv` function.
 
+```
+// Retrieve data from the CSV file and execute everything below
+d3.csv("assets/data/data.csv")
+  .then(function (demoData, err) {
+    if (err) throw err;
+    // parse data
+    var abbrev = [];
+    demoData.forEach(function (data) {
+      data.healthcare = 100 - data.healthcare;
+      data.smokes = +data.smokes;
+      data.obesity = +data.obesity;
+      data.poverty = +data.poverty;
+      data.age = +data.age;
+      data.income = +data.income;
+      abbrev.push(data.abbr);
+    });
+```
+###Step 2
 
-1. Create a new repository for this project called `D3-Challenge`. DONE 
+Create graph with multiple axes.
+![Visualization] ("Code/assets/screenshots/graph.png")
 
-2. Clone the new repository to your computer. DONE
+###Step 3
 
-3. Inside your local git repository, create a directory for the D3 challenge. Use the folder name to correspond to the challenge: **D3_data_journalism**. DONE
+Provide some exploratory analysis of the graph.
 
-4. Push the above changes to GitHub or GitLab. DONE
+![Exploratory Analysis] (""Code/assets/screenshots/analysis.png")
 
-5. You need to create a scatter plot between two of the data variables. DONE
+--
+###Contact Information
 
-6. create a scatter plot that represents each state with circle elements. DONE 
-
-7. Code this graphic in the `app.js` file of your homework directory. DONE
-
-8. Pull in the data from `data.csv` by using the `d3.csv` function. DONE
-
-9. Include state abbreviations in the circles. NOT DONE -- SEE NOTE
-
-10.  Create and situate your axes and labels to the left and bottom of the chart. DONE
-
-BONUS
-
-11. Place additional labels in your scatter plot and give them click events so that your users can decide which data to display. DONE
-
-12. Animate the transitions for your circles' locations as well as the range of your axes. Do this for two risk factors for each axis. Or, for an extreme challenge, create three for each axis. DONE FOR THREE.
-
-13. Add tooltips to your circles and display each tooltip with the data that the user has selected. DONE
-
-14. Ensure your repository has regular commits (i.e. 20+ commits) and a thorough README.md file DONE
-
-NOTE: I'd love advice about getting the State Abbreviations to attach to the circles. If you un-comment the code is app.js that is commented out, you'll see that I wrote code to attach the abbreviations, but there was a problem: only 29 or so of the labels appeared (alphbetically, from MA to the end of the list). At one point I had the existing abbrevs moving with the cicles, but I think I took this out in hope of trying to solve the issue. Neither I nor my tutor could figure out what was going on with this.
+Brook Miller
+millerbrook@gmail.com
+![LinkedIn](www.linkedin.com/in/brook-miller-data)
