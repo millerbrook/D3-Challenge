@@ -1,4 +1,12 @@
-TO DO LIST: 
+<h1><strong>Multi-axis D3 Visualization<strong></h1>
+<hr>
+This project utilizes D3 to visualize U.S. state-based health data across a total of six axes (3 for each axis in the coordinate plan). In total, it offers 9 visualizations of the correlations between various health-related metrics.
+Dataset
+
+Objectives
+
+Step 1
+
 
 1. Create a new repository for this project called `D3-Challenge`. DONE 
 
