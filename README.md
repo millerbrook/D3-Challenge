@@ -3,7 +3,10 @@
 This project utilizes D3 to visualize U.S. state-based health data across a total of six axes (3 for each axis in the coordinate plan). In total, it offers 9 visualizations of the correlations between various health-related metrics.
 
 ---
+## Explore the project here
+https://millerbrook.github.io/Health-Data-By-State-Multi-Axis_D3_Visualization/
 
+---
 ## Dataset
 [Health Data By State](https://github.com/millerbrook/Multi-Axis_D3_Visualization/tree/main/Code/assets/data/data.csv)
 
