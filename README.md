@@ -49,6 +49,6 @@ Provide some exploratory analysis of the graph.
 --
 ### Contact Information
 
-Brook Miller
-[Email](millerbrook@gmail.com)
+Brook Miller  
+[Email](millerbrook@gmail.com)  
 [LinkedIn](www.linkedin.com/in/brook-miller-data)
